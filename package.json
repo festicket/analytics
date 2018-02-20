@@ -14,12 +14,25 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@babel/core": "^7.0.0-beta.40",
+    "@babel/preset-env": "^7.0.0-beta.40",
     "@commitlint/config-angular": "^6.1.0",
     "@festicket/eslint-config": "^1.1.5",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
     "commitlint": "^6.1.0",
     "eslint": "^4.18.0",
     "prettier": "^1.10.2",
     "webpack": "^3.11.0",
     "webpack-dev-server": "^2.11.1"
-  }
+  },
+  "browserslist": [
+    "last 3 Chrome versions",
+    "last 3 ChromeAndroid versions",
+    "Edge >= 14",
+    "Explorer >= 11",
+    "last 3 Firefox versions",
+    "iOS >= 8",
+    "Safari >= 9"
+  ]
 }
