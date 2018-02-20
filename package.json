@@ -7,13 +7,16 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack-dev-server",
     "build": "webpack -p",
-    "lint": "eslint ./src/**/* --ext .js --ext .jsx --fix"
+    "lint": "eslint ./src/**/* --ext .js --ext .jsx --fix",
+    "commitmsg": "commitlint -e $GIT_PARAMS"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@commitlint/config-angular": "^6.1.0",
     "@festicket/eslint-config": "^1.1.5",
+    "commitlint": "^6.1.0",
     "eslint": "^4.18.0",
     "prettier": "^1.10.2",
     "webpack": "^3.11.0",
