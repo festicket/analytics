@@ -1,3 +1,3 @@
-console.log('-----------------------');
-console.log('working');
-console.log('-----------------------');
+export default class AnalyticsManager {
+  init() {}
+}

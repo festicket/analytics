@@ -21,6 +21,7 @@ RUN npx yarn install
 COPY .eslintrc \
      webpack.config.js \
      .flowconfig \
+     .babelrc \
      ./
 
 # Copy our application code across
