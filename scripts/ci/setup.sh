@@ -2,7 +2,7 @@
 
 set -ex
 
-export REVISION=$(git rev-parse HEAD)
+REVISION=$(git rev-parse HEAD)
 
 # Clean up semaphore
 # sudo rm -rf /home/runner/{.phpbrew,.phpunit,.kerl,.kiex,.lein,.rbenv}

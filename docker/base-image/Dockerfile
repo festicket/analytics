@@ -22,10 +22,12 @@ COPY .eslintrc \
      webpack.config.js \
      .flowconfig \
      .babelrc \
+     cypress.json \
      ./
 
 # Copy our application code across
 COPY ./src src
+COPY ./cypress cypress
 
 # Build our assets
 RUN npx yarn build
