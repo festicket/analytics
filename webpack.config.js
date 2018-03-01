@@ -3,7 +3,8 @@ const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 
 module.exports = {
   entry: {
-    index: path.resolve(process.cwd(), "src/index.js")
+    index: path.resolve(process.cwd(), "src/index.js"),
+    runner: path.resolve(process.cwd(), "src/runner.js"),
   },
   output: {
     path: path.resolve(process.cwd(), "dist"),
