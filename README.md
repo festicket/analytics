@@ -36,5 +36,5 @@ If you would like to track a clik on an element you can use data attributes to b
   This is a button
 </button>
 
-// Will result in an analytics payload of { my-value: 'some-value' }
+<!-- Will result in an analytics payload of { my-value: 'some-value' } -->
 ```
