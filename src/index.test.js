@@ -1,25 +1,48 @@
-import AnalyticsManager from './';
+jest.mock('./load-script', () => ({
+  loadScript: () => Promise.resolve(jest.fn()),
+}));
 
-describe('AnalyticsManager', () => {
-  let client;
-  const addEventListenerSpy = jest.fn();
+import init, { evtHandle } from './'; // eslint-disable-line import/first
 
+const KEY = 'test';
+
+describe('init errors', () => {
+  it('should throw if no key is provided to init', () => {
+    expect(init).toThrow();
+  });
+});
+
+describe('init', () => {
+  let track;
+  let spy;
   beforeEach(() => {
-    // Create the client instance to work with
-    client = new AnalyticsManager({ key: 'test' });
-    // Setup the addEventListener mock
+    // Spy on some stuff
+    spy = jest.fn();
+    // Mock out the globals
     Object.defineProperty(window, 'addEventListener', {
-      value: addEventListenerSpy,
-      writable: true,
+      value: spy,
+      writeable: true,
     });
+
+    // Result
+    track = init(KEY);
   });
 
-  it('should store the writeKey', () => {
-    expect(client.key).toEqual('test');
+  it('should return a track function', () => {
+    expect(typeof track).toEqual('function');
   });
 
-  it('should add an event listener to the body with teh correct handle', () => {
-    client.init();
-    expect(addEventListenerSpy).toHaveBeenCalledWith('click', client.onClick);
+  it('should attach a click event listener to the window', () => {
+    expect(spy).toHaveBeenCalled();
+    expect(spy.mock.calls[0][0]).toEqual('click');
+  });
+});
+
+describe('evtHandle', () => {
+  it('should call track with the right arguments', async () => {
+    const trackSpy = jest.fn();
+    await evtHandle(trackSpy, KEY, {});
+    expect(trackSpy).toHaveBeenCalled();
+    expect(trackSpy.mock.calls[0][0].writeKey).toEqual(KEY);
   });
 });

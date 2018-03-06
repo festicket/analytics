@@ -1,10 +1,13 @@
 const path = require('path');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
+const isProd = process.env.NODE_ENV === 'production';
+
 module.exports = {
+  devtool: isProd ? 'source-map' : 'inline-source-map',
   entry: {
     index: path.resolve(process.cwd(), 'src/index.js'),
-    runner: path.resolve(process.cwd(), 'tests/index.js'),
+    runner: path.resolve(process.cwd(), 'test/index.js'),
   },
   output: {
     path: path.resolve(process.cwd(), 'dist'),
@@ -21,5 +24,5 @@ module.exports = {
       },
     ],
   },
-  plugins: [new UglifyJsPlugin()],
+  plugins: [new UglifyJsPlugin({ sourceMap: !isProd })],
 };

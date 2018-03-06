@@ -1,4 +1,4 @@
-import AnalyticsManager from './';
+import 'babel-polyfill';
+import init from '../src';
 
-const client = new AnalyticsManager({ key: 'test' });
-client.init();
+init('test');

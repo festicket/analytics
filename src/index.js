@@ -1,13 +1,24 @@
-import client from 'analytics.js';
+import loadScript from './load-script';
 
-export default class AnalyticsManager {
-  constructor({ key }) {
-    this.key = key;
+export function trackFactory(key) {
+  return async data => {
+    const { track } = await loadScript(key);
+    return track(data);
+  };
+}
+
+export async function evtHandle(track, key /* , e */) {
+  await track({ writeKey: key });
+}
+
+export default function init(key) {
+  if (!key) {
+    throw new Error('A segment key must be passed to init');
   }
 
-  init() {
-    window.addEventListener('click', this.onClick);
-  }
+  const track = trackFactory(key);
 
-  onClick() {}
+  window.addEventListener('click', e => evtHandle(track, key, e));
+
+  return track;
 }
