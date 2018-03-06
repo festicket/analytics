@@ -4,11 +4,11 @@ describe('Example Test', () => {
     cy
       .route('POST', 'https://api.segment.io/v1/p', { response: { ok: true } })
       .as('analytics');
+    cy.visit('http://localhost:8080');
   });
 
   it('should pass', () => {
-    cy.visit('http://localhost:8080');
-
+    cy.get('#test-1').click();
     cy
       .wait('@analytics')
       .its('request.body.writeKey')

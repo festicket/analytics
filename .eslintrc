@@ -1,9 +1,11 @@
 {
   "extends": "@festicket",
   "plugins": [
-    "cypress"
+    "cypress",
+    "jest"
   ],
   "env": {
-    "cypress/globals": true
+    "cypress/globals": true,
+    "jest/globals": true
   }
 }

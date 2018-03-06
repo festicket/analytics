@@ -1,12 +1,25 @@
-import AnalyticsManager from "./";
+import AnalyticsManager from './';
 
-describe("AnalyticsManager", () => {
+describe('AnalyticsManager', () => {
   let client;
+  const addEventListenerSpy = jest.fn();
+
   beforeEach(() => {
-    client = new AnalyticsManager();
+    // Create the client instance to work with
+    client = new AnalyticsManager({ key: 'test' });
+    // Setup the addEventListener mock
+    Object.defineProperty(window, 'addEventListener', {
+      value: addEventListenerSpy,
+      writable: true,
+    });
   });
 
-  it("should have an init method", () => {
-    expect(client.init).toBeTruthy();
+  it('should store the writeKey', () => {
+    expect(client.key).toEqual('test');
+  });
+
+  it('should add an event listener to the body with teh correct handle', () => {
+    client.init();
+    expect(addEventListenerSpy).toHaveBeenCalledWith('click', client.onClick);
   });
 });
