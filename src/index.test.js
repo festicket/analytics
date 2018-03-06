@@ -13,7 +13,7 @@ describe('init errors', () => {
 });
 
 describe('init', () => {
-  let track;
+  let result;
   let spy;
   beforeEach(() => {
     // Spy on some stuff
@@ -25,11 +25,27 @@ describe('init', () => {
     });
 
     // Result
-    track = init(KEY);
+    result = init(KEY);
   });
 
   it('should return a track function', () => {
-    expect(typeof track).toEqual('function');
+    expect(typeof result.track).toEqual('function');
+  });
+
+  it('should return an identify function', () => {
+    expect(typeof result.identify).toEqual('function');
+  });
+
+  it('should return an page function', () => {
+    expect(typeof result.page).toEqual('function');
+  });
+
+  it('should return an group function', () => {
+    expect(typeof result.group).toEqual('function');
+  });
+
+  it('should return an alias function', () => {
+    expect(typeof result.alias).toEqual('function');
   });
 
   it('should attach a click event listener to the window', () => {
