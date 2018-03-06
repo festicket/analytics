@@ -28,6 +28,7 @@ COPY .eslintrc \
 # Copy our application code across
 COPY ./src src
 COPY ./cypress cypress
+COPY ./test test
 
 # Build our assets
 RUN npx yarn build
