@@ -19,5 +19,7 @@ export default function loadScript(key) {
 
     // Return the now present window.analytics after the script has loaded
     return window.analytics;
-  });
+  })
+    .then(() => window.analytics)
+    .catch(() => window.analytics);
 }

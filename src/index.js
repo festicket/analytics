@@ -7,7 +7,10 @@ export function trackFactory(key) {
   };
 }
 
-export async function evtHandle(track, key /* , e */) {
+export async function evtHandle(track, key, e) {
+  if (!e.target.dataset.analytics) {
+    return;
+  }
   await track({ writeKey: key });
 }
 
