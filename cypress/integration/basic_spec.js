@@ -12,11 +12,20 @@ describe('Festicket Analytics', () => {
 
   it('should track elements that have been clicked', () => {
     cy.get('#test-1').click();
-    cy.get('@track').should('be.calledWith', { writeKey: 'test' });
+    cy.get('@track').should('be.called');
   });
 
   it('should not track elements that have not been enabled', () => {
     cy.get('#test-2').click();
     cy.get('@track').should('not.be.called');
+  });
+
+  it('should pass the correct payload to analytics', () => {
+    cy.get('#test-3').click();
+    cy.get('@track').should('be.calledWith', {
+      elementId: 'test-3',
+      test: 'test',
+      payload: 'payload',
+    });
   });
 });

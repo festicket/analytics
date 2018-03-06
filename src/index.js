@@ -11,7 +11,9 @@ export async function evtHandle(track, key, e) {
   if (!e.target.dataset.analytics) {
     return;
   }
-  await track({ writeKey: key });
+  const { analytics, ...data } = e.target.dataset;
+  const elementData = e.target.id ? { elementId: e.target.id } : {};
+  await track({ ...data, ...elementData });
 }
 
 export default function init(key) {
