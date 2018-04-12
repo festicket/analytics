@@ -36,6 +36,7 @@
     "babel-jest": "^22.4.0",
     "babel-loader": "^7.1.2",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-flow": "^6.23.0",
@@ -64,6 +65,7 @@
     "Safari >= 9"
   ],
   "dependencies": {
-    "analytics.js": "^2.9.1"
+    "analytics.js": "^2.9.1",
+    "babel-runtime": "^6.26.0"
   }
 }
