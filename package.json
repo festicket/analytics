@@ -2,11 +2,14 @@
   "name": "@festicket/analytics",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "files": [
+    "dist/"
+  ],
   "scripts": {
     "test": "jest",
     "start": "webpack-dev-server",
-    "build": "webpack",
+    "build": "babel src --out-dir dist --ignore index.test.js",
     "lint": "eslint ./src/**/* --ext .js --ext .jsx --fix",
     "flow": "flow",
     "precypress": "npm run start & wait-on http://localhost:8080",
@@ -29,10 +32,12 @@
   "devDependencies": {
     "@commitlint/config-angular": "^6.1.0",
     "@festicket/eslint-config": "^1.1.5",
+    "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-jest": "^22.4.0",
     "babel-loader": "^7.1.2",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-flow": "^6.23.0",
@@ -61,6 +66,7 @@
     "Safari >= 9"
   ],
   "dependencies": {
-    "analytics.js": "^2.9.1"
+    "analytics.js": "^2.9.1",
+    "babel-runtime": "^6.26.0"
   }
 }
