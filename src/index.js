@@ -46,7 +46,7 @@ function aliasFactory(key) {
 }
 
 // Handle click events
-async function evtHandle(track, key, e) {
+async function eventHandle(track, key, e) {
   // Only track elements with data-analytics=true
   if (!e.target.dataset.analytics) {
     return;
@@ -82,7 +82,7 @@ export default function init(key) {
   const track = trackFactory(key);
 
   // Listen to all click events in a page and track if enabled
-  window.addEventListener('click', e => evtHandle(track, key, e));
+  window.addEventListener('click', e => eventHandle(track, key, e));
 
   return {
     track,
