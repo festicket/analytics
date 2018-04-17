@@ -7,41 +7,41 @@ function firstCharToLower(string) {
 
 // Create the track() function
 function trackFactory(key) {
-  return async data => {
+  return async (...data) => {
     const { track } = await loadScript(key);
-    return track(data);
+    return track(...data);
   };
 }
 
 // Create the identify() function
 function identifyFactory(key) {
-  return async data => {
+  return async (...data) => {
     const { identify } = await loadScript(key);
-    return identify(data);
+    return identify(...data);
   };
 }
 
 // Create the page() functino
 function pageFactory(key) {
-  return async data => {
+  return async (...data) => {
     const { page } = await loadScript(key);
-    return page(data);
+    return page(...data);
   };
 }
 
 // create the group() functino
 function groupFactory(key) {
-  return async data => {
+  return async (...data) => {
     const { group } = await loadScript(key);
-    return group(data);
+    return group(...data);
   };
 }
 
 // create the alias() function
 function aliasFactory(key) {
-  return async data => {
+  return async (...data) => {
     const { alias } = await loadScript(key);
-    return alias(data);
+    return alias(...data);
   };
 }
 
@@ -53,7 +53,7 @@ async function eventHandle(track, key, e) {
   }
 
   // Strip data-analytics=true
-  const { analytics, ...data } = e.target.dataset;
+  const { analytics, analyticsEvent, ...data } = e.target.dataset;
 
   // Map through the data props and only use data-analytics-* as the data payload
   const payloadData = Object.keys(data).reduce((result, propName) => {
@@ -70,7 +70,7 @@ async function eventHandle(track, key, e) {
   const elementData = e.target.id ? { elementId: e.target.id } : {};
 
   // Actually track our event
-  await track({ ...payloadData, ...elementData });
+  await track(analyticsEvent, { ...payloadData, ...elementData });
 }
 
 // Export out init() function that kicks everything off
