@@ -22,7 +22,7 @@ describe('Festicket Analytics', () => {
 
   it('should pass the correct payload to analytics', () => {
     cy.get('#test-3').click();
-    cy.get('@track').should('be.calledWith', {
+    cy.get('@track').should('be.calledWith', 'event', {
       elementId: 'test-3',
       test: 'test',
       payload: 'payload',
