@@ -25,8 +25,8 @@ myEvtHandle = () => {
 
 ## Automatic tracking
 
-The initialisation process listens to all click events on you page.
-If you would like to track a clik on an element you can use data attributes to both enable and pass data into your analytics events:
+The initialisation process listens to all click events on your page.
+If you would like to track a click on an element you can use data attributes to both enable and pass data into your analytics events:
 
 ```html
 <button
