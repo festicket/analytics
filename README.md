@@ -31,10 +31,10 @@ If you would like to track a clik on an element you can use data attributes to b
 ```html
 <button
   data-analytics='true'
-  data-my-value='some-value'
+  data-analytics-my-value='some-value'
 >
   This is a button
 </button>
 
-<!-- Will result in an analytics payload of { my-value: 'some-value' } -->
+<!-- Will result in an analytics payload of { myValue: 'some-value' } -->
 ```
