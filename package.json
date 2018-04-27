@@ -17,7 +17,7 @@
     "pretest:cypress": "npm run start & wait-on http://localhost:8080",
     "test:cypress": "cypress run",
     "commitmsg": "commitlint -e $GIT_PARAMS",
-    "precommit": "lint-staged"
+    "precommit": "npm run flow && lint-staged"
   },
   "lint-staged": {
     "*.{js,jsx}": [
