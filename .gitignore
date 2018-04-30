@@ -1,8 +1,8 @@
 node_modules
-dist
 *.log
 cypress/videos
 cypress/screenshots
 cypress/fixtures
-dist
+dist/
 .idea/
+
