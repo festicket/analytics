@@ -1,4 +1,5 @@
 # Analytics
+[![Build Status](https://semaphoreci.com/api/v1/festicketci/analytics/branches/master/badge.svg)](https://semaphoreci.com/festicketci/analytics)
 
 A better API wrapper for segment. Uses a slightly amended script loading method as opposed to the [Segment Quick Start Guide](https://segment.com/docs/sources/website/analytics.js/quickstart/).
 Adds automatic tracking to elements that are clicked.
