@@ -1,5 +1,6 @@
 # Analytics
 [![Build Status](https://semaphoreci.com/api/v1/festicketci/analytics/branches/master/badge.svg)](https://semaphoreci.com/festicketci/analytics)
+[![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 
 A better API wrapper for segment. Uses a slightly amended script loading method as opposed to the [Segment Quick Start Guide](https://segment.com/docs/sources/website/analytics.js/quickstart/).
 Adds automatic tracking to elements that are clicked.
