@@ -28,4 +28,9 @@ describe('Festicket Analytics', () => {
       payload: 'payload',
     });
   });
+
+  it('should track clicks on elements that are children of track-able elements', () => {
+    cy.get('[data-cy=nested-span]').click();
+    cy.get('@track').should('be.called');
+  });
 });
