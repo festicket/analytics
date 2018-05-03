@@ -1,3 +1,4 @@
+import './closest-polyfill';
 import loadScript from './load-script';
 
 // Lower case the first character of any string
@@ -48,12 +49,16 @@ function aliasFactory(key) {
 // Handle click events
 async function eventHandle(track, key, e) {
   // Only track elements with data-analytics=true
-  if (!e.target.dataset.analytics) {
+  // Use `Element.closest` because the clicked element may be a child
+  // of an element with data-analytics=true on it.
+  const target = e.target.closest('[data-analytics=true]');
+
+  if (!target) {
     return;
   }
 
   // Strip data-analytics=true
-  const { analytics, analyticsEvent, ...data } = e.target.dataset;
+  const { analytics, analyticsEvent, ...data } = target.dataset;
 
   // Map through the data props and only use data-analytics-* as the data payload
   const payloadData = Object.keys(data).reduce((result, propName) => {
@@ -67,7 +72,7 @@ async function eventHandle(track, key, e) {
   }, {});
 
   // construct our event payload with { elementId: element.id }
-  const elementData = e.target.id ? { elementId: e.target.id } : {};
+  const elementData = target.id ? { elementId: target.id } : {};
 
   // Actually track our event
   await track(analyticsEvent, { ...payloadData, ...elementData });
