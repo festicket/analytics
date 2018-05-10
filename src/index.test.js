@@ -52,4 +52,16 @@ describe('init', () => {
     expect(spy).toHaveBeenCalled();
     expect(spy.mock.calls[0][0]).toEqual('click');
   });
+
+  it('should return empty functions in case analytics are disabled', () => {
+    const { track, identify, page, group, alias } = init(KEY, {
+      disableBrowserAnalytics: true,
+    });
+
+    expect(track()).toBeUndefined();
+    expect(identify()).toBeUndefined();
+    expect(page()).toBeUndefined();
+    expect(group()).toBeUndefined();
+    expect(alias()).toBeUndefined();
+  });
 });

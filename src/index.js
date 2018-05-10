@@ -79,9 +79,20 @@ async function eventHandle(track, key, e) {
 }
 
 // Export out init() function that kicks everything off
-export default function init(key) {
+export default function init(key, config) {
   if (!key) {
     throw new Error('A segment key must be passed to init');
+  }
+
+  // If analytics are explicitly disabled
+  if (config && config.disableBrowserAnalytics) {
+    return {
+      track: () => {},
+      identify: () => {},
+      page: () => {},
+      group: () => {},
+      alias: () => {},
+    };
   }
 
   const track = trackFactory(key);
