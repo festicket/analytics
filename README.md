@@ -20,9 +20,9 @@ Then later in your application:
 import { track } from 'app/utils/analytics';
 
 // Wait for something which you would like to track
-myEvtHandle = () => {
+myEvtHandle = async () => {
   await track(/* some data */)
-}
+};
 ```
 
 ## Automatic tracking
