@@ -78,8 +78,12 @@ async function eventHandle(track, key, e) {
   await track(analyticsEvent, { ...payloadData, ...elementData });
 }
 
+const defaultConfig = {
+  trackClicks: true,
+};
+
 // Export out init() function that kicks everything off
-export default function init(key) {
+export default function init(key, config = defaultConfig) {
   if (!key) {
     throw new Error('A segment key must be passed to init');
   }
@@ -87,7 +91,9 @@ export default function init(key) {
   const track = trackFactory(key);
 
   // Listen to all click events in a page and track if enabled
-  window.addEventListener('click', e => eventHandle(track, key, e));
+  if (config.trackClicks) {
+    window.addEventListener('click', e => eventHandle(track, key, e));
+  }
 
   return {
     track,
