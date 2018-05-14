@@ -1,4 +1,3 @@
-import './closest-polyfill';
 import loadScript from './load-script';
 
 // Lower case the first character of any string

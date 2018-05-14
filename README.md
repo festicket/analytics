@@ -5,6 +5,7 @@
 A better API wrapper for segment. Uses a slightly amended script loading method as opposed to the [Segment Quick Start Guide](https://segment.com/docs/sources/website/analytics.js/quickstart/).
 Adds automatic tracking to elements that are clicked.
 
+A polyfill for Element.prototype.closest is required to support older browsers.
 
 ## Setup
 
