@@ -61,6 +61,6 @@ describe('init', () => {
       trackClicks: false,
     });
 
-    expect(spy).toHaveBeenCalledTimes(0);
+    expect(spy).not.toHaveBeenCalled();
   });
 });
