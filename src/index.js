@@ -83,6 +83,19 @@ export default function init(key) {
     throw new Error('A segment key must be passed to init');
   }
 
+  if (typeof window === 'undefined') {
+    const errorFunction = () => {
+      throw new Error('analytics function called in non browser environment');
+    };
+    return {
+      track: errorFunction,
+      identify: errorFunction,
+      page: errorFunction,
+      group: errorFunction,
+      alias: errorFunction,
+    };
+  }
+
   const track = trackFactory(key);
 
   // Listen to all click events in a page and track if enabled
