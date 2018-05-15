@@ -88,15 +88,17 @@ export default function init(key, config = defaultConfig) {
   }
 
   if (typeof window === 'undefined') {
-    const errorFunction = () => {
-      throw new Error('analytics function called in non browser environment');
+    const errorFunction = message => () => {
+      throw new Error(
+        `analytics function '${message}' called in non browser environment`,
+      );
     };
     return {
-      track: errorFunction,
-      identify: errorFunction,
-      page: errorFunction,
-      group: errorFunction,
-      alias: errorFunction,
+      track: errorFunction('track'),
+      identify: errorFunction('identify'),
+      page: errorFunction('page'),
+      group: errorFunction('group'),
+      alias: errorFunction('alias'),
     };
   }
 
