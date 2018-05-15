@@ -1,4 +1,3 @@
-import './closest-polyfill';
 import loadScript from './load-script';
 
 // Lower case the first character of any string
@@ -86,6 +85,21 @@ const defaultConfig = {
 export default function init(key, config = defaultConfig) {
   if (!key) {
     throw new Error('A segment key must be passed to init');
+  }
+
+  if (typeof window === 'undefined') {
+    const errorFunction = message => () => {
+      throw new Error(
+        `analytics function '${message}' called in non browser environment`,
+      );
+    };
+    return {
+      track: errorFunction('track'),
+      identify: errorFunction('identify'),
+      page: errorFunction('page'),
+      group: errorFunction('group'),
+      alias: errorFunction('alias'),
+    };
   }
 
   const track = trackFactory(key);
