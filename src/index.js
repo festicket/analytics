@@ -6,42 +6,47 @@ function firstCharToLower(string) {
 }
 
 // Create the track() function
-function trackFactory(key) {
+export function trackFactory(key, globalData) {
   return async (...data) => {
     const { track } = await loadScript(key);
-    return track(...data);
+    const compoundedData = Object.assign({}, globalData, ...data);
+    return track(compoundedData);
   };
 }
 
 // Create the identify() function
-function identifyFactory(key) {
+export function identifyFactory(key, globalData) {
   return async (...data) => {
     const { identify } = await loadScript(key);
-    return identify(...data);
+    const compoundedData = Object.assign({}, globalData, ...data);
+    return identify(compoundedData);
   };
 }
 
 // Create the page() functino
-function pageFactory(key) {
+export function pageFactory(key, globalData) {
   return async (...data) => {
     const { page } = await loadScript(key);
-    return page(...data);
+    const compoundedData = Object.assign({}, globalData, ...data);
+    return page(compoundedData);
   };
 }
 
 // create the group() functino
-function groupFactory(key) {
+export function groupFactory(key, globalData) {
   return async (...data) => {
     const { group } = await loadScript(key);
-    return group(...data);
+    const compoundedData = Object.assign({}, globalData, ...data);
+    return group(compoundedData);
   };
 }
 
 // create the alias() function
-function aliasFactory(key) {
+export function aliasFactory(key, globalData) {
   return async (...data) => {
     const { alias } = await loadScript(key);
-    return alias(...data);
+    const compoundedData = Object.assign({}, globalData, ...data);
+    return alias(compoundedData);
   };
 }
 
@@ -63,7 +68,7 @@ async function eventHandle(track, key, e) {
   const payloadData = Object.keys(data).reduce((result, propName) => {
     if (propName.startsWith('analytics')) {
       const strippedPropName = firstCharToLower(
-        propName.replace('analytics', ''),
+        propName.replace('analytics', '')
       );
       result[strippedPropName] = data[propName]; // eslint-disable-line no-param-reassign
     }
@@ -82,7 +87,7 @@ const defaultConfig = {
 };
 
 // Export out init() function that kicks everything off
-export default function init(key, config = defaultConfig) {
+export default function init(key, config = defaultConfig, getGlobalData) {
   if (!key) {
     throw new Error('A segment key must be passed to init');
   }
@@ -90,7 +95,7 @@ export default function init(key, config = defaultConfig) {
   if (typeof window === 'undefined') {
     const errorFunction = message => () => {
       throw new Error(
-        `analytics function '${message}' called in non browser environment`,
+        `analytics function '${message}' called in non browser environment`
       );
     };
     return {
@@ -102,7 +107,9 @@ export default function init(key, config = defaultConfig) {
     };
   }
 
-  const track = trackFactory(key);
+  const globalData = getGlobalData ? getGlobalData() : {};
+
+  const track = trackFactory(key, globalData);
 
   // Listen to all click events in a page and track if enabled
   if (config.trackClicks) {
@@ -111,9 +118,9 @@ export default function init(key, config = defaultConfig) {
 
   return {
     track,
-    identify: identifyFactory(key),
-    page: pageFactory(key),
-    group: groupFactory(key),
-    alias: aliasFactory(key),
+    identify: identifyFactory(key, globalData),
+    page: pageFactory(key, globalData),
+    group: groupFactory(key, globalData),
+    alias: aliasFactory(key, globalData),
   };
 }
