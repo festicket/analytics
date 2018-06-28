@@ -7,46 +7,46 @@ function firstCharToLower(string) {
 
 // Create the track() function
 function trackFactory(key, getGlobalData) {
-  return async (...data) => {
+  return async (event, data = {}) => {
     const { track } = await loadScript(key);
-    const compoundedData = Object.assign({}, getGlobalData(), ...data);
-    return track(compoundedData);
+    const compoundedData = Object.assign({}, getGlobalData(), data);
+    return track(event, compoundedData);
   };
 }
 
 // Create the identify() function
 function identifyFactory(key, getGlobalData) {
-  return async (...data) => {
+  return async (userId, data = {}) => {
     const { identify } = await loadScript(key);
-    const compoundedData = Object.assign({}, getGlobalData(), ...data);
-    return identify(compoundedData);
+    const compoundedData = Object.assign({}, getGlobalData(), data);
+    return identify(userId, compoundedData);
   };
 }
 
 // Create the page() functino
 function pageFactory(key, getGlobalData) {
-  return async (...data) => {
+  return async (name, data = {}) => {
     const { page } = await loadScript(key);
-    const compoundedData = Object.assign({}, getGlobalData(), ...data);
-    return page(compoundedData);
+    const compoundedData = Object.assign({}, getGlobalData(), data);
+    return page(name, compoundedData);
   };
 }
 
 // create the group() functino
 function groupFactory(key, getGlobalData) {
-  return async (...data) => {
+  return async (groupId, data) => {
     const { group } = await loadScript(key);
-    const compoundedData = Object.assign({}, getGlobalData(), ...data);
-    return group(compoundedData);
+    const compoundedData = Object.assign({}, getGlobalData(), data);
+    return group(groupId, compoundedData);
   };
 }
 
 // create the alias() function
-function aliasFactory(key, getGlobalData) {
-  return async (...data) => {
+// alias does not take any options, just required arguments previousId and userId
+function aliasFactory(key) {
+  return async (previousId, userId) => {
     const { alias } = await loadScript(key);
-    const compoundedData = Object.assign({}, getGlobalData(), ...data);
-    return alias(compoundedData);
+    return alias(previousId, userId);
   };
 }
 
@@ -125,6 +125,6 @@ export default function init(key, extraConfig) {
     identify: identifyFactory(key, getGlobalData),
     page: pageFactory(key, getGlobalData),
     group: groupFactory(key, getGlobalData),
-    alias: aliasFactory(key, getGlobalData),
+    alias: aliasFactory(key),
   };
 }
