@@ -6,46 +6,46 @@ function firstCharToLower(string) {
 }
 
 // Create the track() function
-export function trackFactory(key, globalData) {
+function trackFactory(key, getGlobalData) {
   return async (...data) => {
     const { track } = await loadScript(key);
-    const compoundedData = Object.assign({}, globalData, ...data);
+    const compoundedData = Object.assign({}, getGlobalData(), ...data);
     return track(compoundedData);
   };
 }
 
 // Create the identify() function
-export function identifyFactory(key, globalData) {
+function identifyFactory(key, getGlobalData) {
   return async (...data) => {
     const { identify } = await loadScript(key);
-    const compoundedData = Object.assign({}, globalData, ...data);
+    const compoundedData = Object.assign({}, getGlobalData(), ...data);
     return identify(compoundedData);
   };
 }
 
 // Create the page() functino
-export function pageFactory(key, globalData) {
+function pageFactory(key, getGlobalData) {
   return async (...data) => {
     const { page } = await loadScript(key);
-    const compoundedData = Object.assign({}, globalData, ...data);
+    const compoundedData = Object.assign({}, getGlobalData(), ...data);
     return page(compoundedData);
   };
 }
 
 // create the group() functino
-export function groupFactory(key, globalData) {
+function groupFactory(key, getGlobalData) {
   return async (...data) => {
     const { group } = await loadScript(key);
-    const compoundedData = Object.assign({}, globalData, ...data);
+    const compoundedData = Object.assign({}, getGlobalData(), ...data);
     return group(compoundedData);
   };
 }
 
 // create the alias() function
-export function aliasFactory(key, globalData) {
+function aliasFactory(key, getGlobalData) {
   return async (...data) => {
     const { alias } = await loadScript(key);
-    const compoundedData = Object.assign({}, globalData, ...data);
+    const compoundedData = Object.assign({}, getGlobalData(), ...data);
     return alias(compoundedData);
   };
 }
@@ -84,10 +84,14 @@ async function eventHandle(track, key, e) {
 
 const defaultConfig = {
   trackClicks: true,
+  getGlobalData: () => ({}),
 };
 
 // Export out init() function that kicks everything off
-export default function init(key, config = defaultConfig, getGlobalData) {
+export default function init(key, extraConfig) {
+  // provide defaultConfig and overwrite if anything extra is provided
+  const config = { ...defaultConfig, ...extraConfig };
+
   if (!key) {
     throw new Error('A segment key must be passed to init');
   }
@@ -107,9 +111,9 @@ export default function init(key, config = defaultConfig, getGlobalData) {
     };
   }
 
-  const globalData = getGlobalData ? getGlobalData() : {};
+  const { getGlobalData } = config;
 
-  const track = trackFactory(key, globalData);
+  const track = trackFactory(key, getGlobalData);
 
   // Listen to all click events in a page and track if enabled
   if (config.trackClicks) {
@@ -118,9 +122,9 @@ export default function init(key, config = defaultConfig, getGlobalData) {
 
   return {
     track,
-    identify: identifyFactory(key, globalData),
-    page: pageFactory(key, globalData),
-    group: groupFactory(key, globalData),
-    alias: aliasFactory(key, globalData),
+    identify: identifyFactory(key, getGlobalData),
+    page: pageFactory(key, getGlobalData),
+    group: groupFactory(key, getGlobalData),
+    alias: aliasFactory(key, getGlobalData),
   };
 }

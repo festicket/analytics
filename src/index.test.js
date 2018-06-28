@@ -9,13 +9,7 @@ jest.mock('./load-script', () => () =>
 );
 
 // eslint-disable-next-line import/first
-import init, {
-  trackFactory,
-  identifyFactory,
-  pageFactory,
-  groupFactory,
-  aliasFactory,
-} from './';
+import init from './';
 
 const KEY = 'test';
 
@@ -78,11 +72,12 @@ describe('init', () => {
   });
 });
 
-describe('trackFactory', () => {
+describe('track', () => {
   it('should call track with globalData and any extra data', async () => {
-    const tracked = await trackFactory('myKey', {
-      globalData: 'global-data',
-    })({ extraData: 'extra-data' });
+    const analytics = init(KEY, {
+      getGlobalData: () => ({ globalData: 'global-data' }),
+    });
+    const tracked = await analytics.track({ extraData: 'extra-data' });
 
     expect(tracked).toEqual({
       globalData: 'global-data',
@@ -91,9 +86,10 @@ describe('trackFactory', () => {
   });
 
   it('should call track with just globalData if no extra data', async () => {
-    const tracked = await trackFactory('myKey', {
-      globalData: 'global-data',
-    })({});
+    const analytics = init(KEY, {
+      getGlobalData: () => ({ globalData: 'global-data' }),
+    });
+    const tracked = await analytics.track();
 
     expect(tracked).toEqual({
       globalData: 'global-data',
@@ -101,9 +97,8 @@ describe('trackFactory', () => {
   });
 
   it('should call track with just extra data if no globalData', async () => {
-    const tracked = await trackFactory('myKey', {})({
-      extraData: 'extra-data',
-    });
+    const analytics = init(KEY);
+    const tracked = await analytics.track({ extraData: 'extra-data' });
 
     expect(tracked).toEqual({
       extraData: 'extra-data',
@@ -111,11 +106,12 @@ describe('trackFactory', () => {
   });
 });
 
-describe('identifyFactory', () => {
+describe('identify', () => {
   it('should call identify with globalData and any extra data', async () => {
-    const identified = await identifyFactory('myKey', {
-      globalData: 'global-data',
-    })({ extraData: 'extra-data' });
+    const analytics = init(KEY, {
+      getGlobalData: () => ({ globalData: 'global-data' }),
+    });
+    const identified = await analytics.identify({ extraData: 'extra-data' });
 
     expect(identified).toEqual({
       globalData: 'global-data',
@@ -124,19 +120,19 @@ describe('identifyFactory', () => {
   });
 
   it('should call identify with just globalData if no extra data', async () => {
-    const identified = await identifyFactory('myKey', {
-      globalData: 'global-data',
-    })({});
+    const analytics = init(KEY, {
+      getGlobalData: () => ({ globalData: 'global-data' }),
+    });
+    const identified = await analytics.identify();
 
     expect(identified).toEqual({
       globalData: 'global-data',
     });
   });
 
-  it('should call identify with just extra data if no globalData', async () => {
-    const identified = await identifyFactory('myKey', {})({
-      extraData: 'extra-data',
-    });
+  it('should call track with just extra data if no globalData', async () => {
+    const analytics = init(KEY);
+    const identified = await analytics.identify({ extraData: 'extra-data' });
 
     expect(identified).toEqual({
       extraData: 'extra-data',
@@ -144,11 +140,12 @@ describe('identifyFactory', () => {
   });
 });
 
-describe('pageFactory', () => {
+describe('page', () => {
   it('should call page with globalData and any extra data', async () => {
-    const paged = await pageFactory('myKey', {
-      globalData: 'global-data',
-    })({ extraData: 'extra-data' });
+    const analytics = init(KEY, {
+      getGlobalData: () => ({ globalData: 'global-data' }),
+    });
+    const paged = await analytics.identify({ extraData: 'extra-data' });
 
     expect(paged).toEqual({
       globalData: 'global-data',
@@ -157,9 +154,10 @@ describe('pageFactory', () => {
   });
 
   it('should call page with just globalData if no extra data', async () => {
-    const paged = await pageFactory('myKey', {
-      globalData: 'global-data',
-    })({});
+    const analytics = init(KEY, {
+      getGlobalData: () => ({ globalData: 'global-data' }),
+    });
+    const paged = await analytics.page();
 
     expect(paged).toEqual({
       globalData: 'global-data',
@@ -167,9 +165,8 @@ describe('pageFactory', () => {
   });
 
   it('should call page with just extra data if no globalData', async () => {
-    const paged = await pageFactory('myKey', {})({
-      extraData: 'extra-data',
-    });
+    const analytics = init(KEY);
+    const paged = await analytics.page({ extraData: 'extra-data' });
 
     expect(paged).toEqual({
       extraData: 'extra-data',
@@ -177,11 +174,12 @@ describe('pageFactory', () => {
   });
 });
 
-describe('groupFactory', () => {
+describe('group', () => {
   it('should call group with globalData and any extra data', async () => {
-    const grouped = await groupFactory('myKey', {
-      globalData: 'global-data',
-    })({ extraData: 'extra-data' });
+    const analytics = init(KEY, {
+      getGlobalData: () => ({ globalData: 'global-data' }),
+    });
+    const grouped = await analytics.group({ extraData: 'extra-data' });
 
     expect(grouped).toEqual({
       globalData: 'global-data',
@@ -190,9 +188,10 @@ describe('groupFactory', () => {
   });
 
   it('should call group with just globalData if no extra data', async () => {
-    const grouped = await groupFactory('myKey', {
-      globalData: 'global-data',
-    })({});
+    const analytics = init(KEY, {
+      getGlobalData: () => ({ globalData: 'global-data' }),
+    });
+    const grouped = await analytics.group();
 
     expect(grouped).toEqual({
       globalData: 'global-data',
@@ -200,9 +199,8 @@ describe('groupFactory', () => {
   });
 
   it('should call group with just extra data if no globalData', async () => {
-    const grouped = await groupFactory('myKey', {})({
-      extraData: 'extra-data',
-    });
+    const analytics = init(KEY);
+    const grouped = await analytics.group({ extraData: 'extra-data' });
 
     expect(grouped).toEqual({
       extraData: 'extra-data',
@@ -210,11 +208,12 @@ describe('groupFactory', () => {
   });
 });
 
-describe('aliasFactory', () => {
+describe('alias', () => {
   it('should call alias with globalData and any extra data', async () => {
-    const aliased = await aliasFactory('myKey', {
-      globalData: 'global-data',
-    })({ extraData: 'extra-data' });
+    const analytics = init(KEY, {
+      getGlobalData: () => ({ globalData: 'global-data' }),
+    });
+    const aliased = await analytics.alias({ extraData: 'extra-data' });
 
     expect(aliased).toEqual({
       globalData: 'global-data',
@@ -223,9 +222,10 @@ describe('aliasFactory', () => {
   });
 
   it('should call alias with just globalData if no extra data', async () => {
-    const aliased = await aliasFactory('myKey', {
-      globalData: 'global-data',
-    })({});
+    const analytics = init(KEY, {
+      getGlobalData: () => ({ globalData: 'global-data' }),
+    });
+    const aliased = await analytics.alias();
 
     expect(aliased).toEqual({
       globalData: 'global-data',
@@ -233,9 +233,8 @@ describe('aliasFactory', () => {
   });
 
   it('should call alias with just extra data if no globalData', async () => {
-    const aliased = await aliasFactory('myKey', {})({
-      extraData: 'extra-data',
-    });
+    const analytics = init(KEY);
+    const aliased = await analytics.alias({ extraData: 'extra-data' });
 
     expect(aliased).toEqual({
       extraData: 'extra-data',
