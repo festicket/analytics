@@ -6,42 +6,47 @@ function firstCharToLower(string) {
 }
 
 // Create the track() function
-function trackFactory(key) {
-  return async (...data) => {
+function trackFactory(key, getGlobalData) {
+  return async (event, data = {}) => {
     const { track } = await loadScript(key);
-    return track(...data);
+    const compoundedData = Object.assign({}, getGlobalData(), data);
+    return track(event, compoundedData);
   };
 }
 
 // Create the identify() function
-function identifyFactory(key) {
-  return async (...data) => {
+function identifyFactory(key, getGlobalData) {
+  return async (userId, data = {}) => {
     const { identify } = await loadScript(key);
-    return identify(...data);
+    const compoundedData = Object.assign({}, getGlobalData(), data);
+    return identify(userId, compoundedData);
   };
 }
 
 // Create the page() functino
-function pageFactory(key) {
-  return async (...data) => {
+function pageFactory(key, getGlobalData) {
+  return async (name, data = {}) => {
     const { page } = await loadScript(key);
-    return page(...data);
+    const compoundedData = Object.assign({}, getGlobalData(), data);
+    return page(name, compoundedData);
   };
 }
 
 // create the group() functino
-function groupFactory(key) {
-  return async (...data) => {
+function groupFactory(key, getGlobalData) {
+  return async (groupId, data) => {
     const { group } = await loadScript(key);
-    return group(...data);
+    const compoundedData = Object.assign({}, getGlobalData(), data);
+    return group(groupId, compoundedData);
   };
 }
 
 // create the alias() function
+// alias does not take any options, just required arguments previousId and userId
 function aliasFactory(key) {
-  return async (...data) => {
+  return async (previousId, userId) => {
     const { alias } = await loadScript(key);
-    return alias(...data);
+    return alias(previousId, userId);
   };
 }
 
@@ -63,7 +68,7 @@ async function eventHandle(track, key, e) {
   const payloadData = Object.keys(data).reduce((result, propName) => {
     if (propName.startsWith('analytics')) {
       const strippedPropName = firstCharToLower(
-        propName.replace('analytics', ''),
+        propName.replace('analytics', '')
       );
       result[strippedPropName] = data[propName]; // eslint-disable-line no-param-reassign
     }
@@ -79,10 +84,14 @@ async function eventHandle(track, key, e) {
 
 const defaultConfig = {
   trackClicks: true,
+  getGlobalData: () => ({}),
 };
 
 // Export out init() function that kicks everything off
-export default function init(key, config = defaultConfig) {
+export default function init(key, extraConfig) {
+  // provide defaultConfig and overwrite if anything extra is provided
+  const config = { ...defaultConfig, ...extraConfig };
+
   if (!key) {
     throw new Error('A segment key must be passed to init');
   }
@@ -90,7 +99,7 @@ export default function init(key, config = defaultConfig) {
   if (typeof window === 'undefined') {
     const errorFunction = message => () => {
       throw new Error(
-        `analytics function '${message}' called in non browser environment`,
+        `analytics function '${message}' called in non browser environment`
       );
     };
     return {
@@ -102,7 +111,9 @@ export default function init(key, config = defaultConfig) {
     };
   }
 
-  const track = trackFactory(key);
+  const { getGlobalData } = config;
+
+  const track = trackFactory(key, getGlobalData);
 
   // Listen to all click events in a page and track if enabled
   if (config.trackClicks) {
@@ -111,9 +122,9 @@ export default function init(key, config = defaultConfig) {
 
   return {
     track,
-    identify: identifyFactory(key),
-    page: pageFactory(key),
-    group: groupFactory(key),
+    identify: identifyFactory(key, getGlobalData),
+    page: pageFactory(key, getGlobalData),
+    group: groupFactory(key, getGlobalData),
     alias: aliasFactory(key),
   };
 }
