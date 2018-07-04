@@ -23,7 +23,7 @@ function identifyFactory(key, getGlobalData) {
   };
 }
 
-// Create the page() functino
+// Create the page() function
 function pageFactory(key, getGlobalData) {
   return async (name, data = {}) => {
     const { page } = await loadScript(key);
@@ -32,7 +32,7 @@ function pageFactory(key, getGlobalData) {
   };
 }
 
-// create the group() functino
+// create the group() function
 function groupFactory(key, getGlobalData) {
   return async (groupId, data) => {
     const { group } = await loadScript(key);

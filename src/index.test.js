@@ -42,12 +42,12 @@ describe('init', () => {
     expect(typeof result.identify).toEqual('function');
   });
 
-  it('should return an page function', () => {
+  it('should return a page function', () => {
     result = init(KEY);
     expect(typeof result.page).toEqual('function');
   });
 
-  it('should return an group function', () => {
+  it('should return a group function', () => {
     result = init(KEY);
     expect(typeof result.group).toEqual('function');
   });
