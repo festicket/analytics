@@ -23,7 +23,7 @@ function identifyFactory(key, getGlobalData) {
   };
 }
 
-// Create the page() functino
+// Create the page() function
 function pageFactory(key, getGlobalData) {
   return async (name, data = {}) => {
     const { page } = await loadScript(key);
@@ -32,7 +32,7 @@ function pageFactory(key, getGlobalData) {
   };
 }
 
-// create the group() functino
+// create the group() function
 function groupFactory(key, getGlobalData) {
   return async (groupId, data) => {
     const { group } = await loadScript(key);
@@ -47,6 +47,14 @@ function aliasFactory(key) {
   return async (previousId, userId) => {
     const { alias } = await loadScript(key);
     return alias(previousId, userId);
+  };
+}
+
+// create the reset() function
+function resetFactory(key) {
+  return async () => {
+    const { reset } = await loadScript(key);
+    return reset();
   };
 }
 
@@ -126,5 +134,6 @@ export default function init(key, extraConfig) {
     page: pageFactory(key, getGlobalData),
     group: groupFactory(key, getGlobalData),
     alias: aliasFactory(key),
+    reset: resetFactory(key),
   };
 }
