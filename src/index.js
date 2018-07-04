@@ -50,6 +50,14 @@ function aliasFactory(key) {
   };
 }
 
+// create the reset() function
+function resetFactory(key) {
+  return async () => {
+    const { reset } = await loadScript(key);
+    return reset();
+  };
+}
+
 // Handle click events
 async function eventHandle(track, key, e) {
   // Only track elements with data-analytics=true
@@ -126,5 +134,6 @@ export default function init(key, extraConfig) {
     page: pageFactory(key, getGlobalData),
     group: groupFactory(key, getGlobalData),
     alias: aliasFactory(key),
+    reset: resetFactory(key),
   };
 }

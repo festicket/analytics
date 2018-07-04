@@ -57,6 +57,11 @@ describe('init', () => {
     expect(typeof result.alias).toEqual('function');
   });
 
+  it('should return a reset function', () => {
+    result = init(KEY);
+    expect(typeof result.reset).toEqual('function');
+  });
+
   it('should attach a click event listener to the window', () => {
     result = init(KEY);
     expect(spy).toHaveBeenCalled();
