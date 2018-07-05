@@ -1,4 +1,4 @@
-export default function shimGlobalAnalytics() {
+export default function shimGlobalAnalytics(res, rej, segmentKey) {
   // Create a queue, but don't obliterate an existing one!
   const analytics = window.analytics || [];
   window.analytics = analytics;
@@ -51,7 +51,34 @@ export default function shimGlobalAnalytics() {
   };
 
   // For each of our methods, generate a queueing stub.
-  analytics.methods.forEach(key => {
-    analytics[key] = analytics.factory(key);
+  analytics.methods.forEach(method => {
+    analytics[method] = analytics.factory(method);
   });
+
+  // Load in our external analytics script see this page for details:
+  // https://developer.mozilla.org/en-US/docs/Web/API/HTMLScriptElement
+  // Create our script
+
+  // Define a method to load Analytics.js from our CDN,
+  // and that will be sure to only ever load it once.
+  analytics.load = function(key, options) {
+    const script = document.createElement('script');
+    script.type = 'text/javascript';
+    // Handle load/error states
+    script.onload = res;
+    script.onerror = rej;
+    // Inject into the head of the document
+    document.head.prepend(script);
+    // Assign a src so it **actually** loads
+    script.src = `https://cdn.segment.com/analytics.js/v1/${key}/analytics.min.js`;
+
+    analytics._loadOptions = options; // eslint-disable-line
+  };
+
+  // Add a version to keep track of what's in the wild.
+  analytics.SNIPPET_VERSION = '4.1.0';
+
+  // Load Analytics.js with your key, which will automatically
+  // load the tools you've enabled for your account. Boosh!
+  analytics.load(segmentKey, { initialPageView: false });
 }

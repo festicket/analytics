@@ -9,20 +9,7 @@ export default function loadScript(key) {
 
     // Create our global event queue to catch any events that
     // occur during script load
-    shimGlobalAnalytics();
-
-    // Load in our external analytics script see this page for details:
-    // https://developer.mozilla.org/en-US/docs/Web/API/HTMLScriptElement
-    // Create our script
-    const script = document.createElement('script');
-    script.type = 'text/javascript';
-    // Handle load/error states
-    script.onload = res;
-    script.onerror = rej;
-    // Inject into the head of the document
-    document.head.prepend(script);
-    // Assign a src so it **actually** loads
-    script.src = `https://cdn.segment.com/analytics.js/v1/${key}/analytics.min.js`;
+    shimGlobalAnalytics(res, rej, key);
 
     // Return the now present window.analytics after the script has loaded
     return window.analytics;
