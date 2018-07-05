@@ -1,4 +1,4 @@
-import loadScript from './load-script';
+import loadAnalytics from './load-analytics';
 
 // Lower case the first character of any string
 function firstCharToLower(string) {
@@ -8,7 +8,7 @@ function firstCharToLower(string) {
 // Create the track() function
 function trackFactory(key, getGlobalData) {
   return async (event, data = {}) => {
-    const { track } = await loadScript(key);
+    const { track } = await loadAnalytics(key);
     const compoundedData = Object.assign({}, getGlobalData(), data);
     return track(event, compoundedData);
   };
@@ -17,7 +17,7 @@ function trackFactory(key, getGlobalData) {
 // Create the identify() function
 function identifyFactory(key, getGlobalData) {
   return async (userId, data = {}) => {
-    const { identify } = await loadScript(key);
+    const { identify } = await loadAnalytics(key);
     const compoundedData = Object.assign({}, getGlobalData(), data);
     return identify(userId, compoundedData);
   };
@@ -26,7 +26,7 @@ function identifyFactory(key, getGlobalData) {
 // Create the page() function
 function pageFactory(key, getGlobalData) {
   return async (name, data = {}) => {
-    const { page } = await loadScript(key);
+    const { page } = await loadAnalytics(key);
     const compoundedData = Object.assign({}, getGlobalData(), data);
     return page(name, compoundedData);
   };
@@ -35,7 +35,7 @@ function pageFactory(key, getGlobalData) {
 // create the group() function
 function groupFactory(key, getGlobalData) {
   return async (groupId, data) => {
-    const { group } = await loadScript(key);
+    const { group } = await loadAnalytics(key);
     const compoundedData = Object.assign({}, getGlobalData(), data);
     return group(groupId, compoundedData);
   };
@@ -45,7 +45,7 @@ function groupFactory(key, getGlobalData) {
 // alias does not take any options, just required arguments previousId and userId
 function aliasFactory(key) {
   return async (previousId, userId) => {
-    const { alias } = await loadScript(key);
+    const { alias } = await loadAnalytics(key);
     return alias(previousId, userId);
   };
 }
@@ -53,7 +53,7 @@ function aliasFactory(key) {
 // create the reset() function
 function resetFactory(key) {
   return async () => {
-    const { reset } = await loadScript(key);
+    const { reset } = await loadAnalytics(key);
     return reset();
   };
 }

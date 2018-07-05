@@ -1,4 +1,4 @@
-jest.mock('./load-script', () => () =>
+jest.mock('./load-analytics', () => () =>
   Promise.resolve({
     track: (event, data) => data,
     identify: (userId, data) => data,
