@@ -10,6 +10,9 @@ function trackFactory(key, getGlobalData) {
   return async (event, data = {}) => {
     const { track } = await loadAnalytics(key);
     const compoundedData = Object.assign({}, getGlobalData(), data);
+    if ('parentIFrame' in window) {
+      window.parentIFrame.sendMessage({ type: 'track', data: compoundedData });
+    }
     return track(event, compoundedData);
   };
 }
