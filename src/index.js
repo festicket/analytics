@@ -79,7 +79,7 @@ async function eventHandle(track, key, e) {
   const payloadData = Object.keys(data).reduce((result, propName) => {
     if (propName.startsWith('analytics')) {
       const strippedPropName = firstCharToLower(
-        propName.replace('analytics', ''),
+        propName.replace('analytics', '')
       );
       result[strippedPropName] = data[propName]; // eslint-disable-line no-param-reassign
     }
@@ -110,7 +110,7 @@ export default function init(key, extraConfig) {
   if (typeof window === 'undefined') {
     const errorFunction = message => () => {
       throw new Error(
-        `analytics function '${message}' called in non browser environment`,
+        `analytics function '${message}' called in non browser environment`
       );
     };
     return {
