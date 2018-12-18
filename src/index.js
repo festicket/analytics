@@ -11,7 +11,7 @@ function trackFactory(key, getGlobalData) {
     const { track } = await loadAnalytics(key);
     const compoundedData = Object.assign({}, getGlobalData(), data);
     if ('parentIFrame' in window) {
-      window.parentIFrame.sendMessage({ type: 'track', data: compoundedData });
+      window.parentIFrame.sendMessage({ type: event, data: compoundedData });
     }
     return track(event, compoundedData);
   };
@@ -79,7 +79,7 @@ async function eventHandle(track, key, e) {
   const payloadData = Object.keys(data).reduce((result, propName) => {
     if (propName.startsWith('analytics')) {
       const strippedPropName = firstCharToLower(
-        propName.replace('analytics', '')
+        propName.replace('analytics', ''),
       );
       result[strippedPropName] = data[propName]; // eslint-disable-line no-param-reassign
     }
@@ -110,7 +110,7 @@ export default function init(key, extraConfig) {
   if (typeof window === 'undefined') {
     const errorFunction = message => () => {
       throw new Error(
-        `analytics function '${message}' called in non browser environment`
+        `analytics function '${message}' called in non browser environment`,
       );
     };
     return {
