@@ -11,7 +11,7 @@ function trackFactory(key, getGlobalData) {
     const { track } = await loadAnalytics(key);
     const compoundedData = Object.assign({}, getGlobalData(), data);
     if ('parentIFrame' in window) {
-      window.parentIFrame.sendMessage({ type: 'track', data: compoundedData });
+      window.parentIFrame.sendMessage({ type: event, data: compoundedData });
     }
     return track(event, compoundedData);
   };
